@@ -2,6 +2,7 @@ package com.example.final_project_2.entity;
 
 import com.example.final_project_2.entity.enumaration.StatusOrder;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,8 +22,11 @@ public class Order implements Serializable {
     private Customer customer;
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private SubService subService;
+    @NotBlank
     private String address;
+    @NotBlank
     private double recommendedPrice;
+    @NotBlank
     private String description;
     private LocalDate dateDoOrder;
     @Enumerated(EnumType.STRING)

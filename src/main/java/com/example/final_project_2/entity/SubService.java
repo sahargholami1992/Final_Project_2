@@ -1,8 +1,11 @@
 package com.example.final_project_2.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -11,11 +14,20 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class SubService implements Serializable {
+
     @Id
     @GeneratedValue
+    private Integer id;
+
+    @Column(unique = true)
+    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String subServiceName;
+    @NotBlank
     private double basePrice;
+    @NotBlank
     private String description;
+    @OneToMany(mappedBy = "subService")
+    private List<Order> orders;
 
     @ToString.Exclude
     @ManyToMany
@@ -28,12 +40,14 @@ public class SubService implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Service service;
 
+
     @Override
     public String toString() {
         return "SubService{" +
+                "id=" + id +
                 ", subServiceName='" + subServiceName + '\'' +
                 ", basePrice=" + basePrice +
                 ", description='" + description + '\'' +
-                "} ";
+                '}';
     }
 }

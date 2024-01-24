@@ -1,6 +1,7 @@
 package com.example.final_project_2.entity;
 
 import com.example.final_project_2.entity.enumaration.ExpertStatus;
+import com.example.final_project_2.utill.ValidImage;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,13 +14,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class Expert extends User {
-    @Id
-    @GeneratedValue
-    private Integer id;
     @Enumerated(EnumType.STRING)
     private ExpertStatus expertStatus;
     private int score;
     @Lob
+    @ValidImage
     private byte[] profileImage;
     @OneToOne
     private Credit credit;

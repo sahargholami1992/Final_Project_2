@@ -3,6 +3,9 @@ package com.example.final_project_2.entity;
 import com.example.final_project_2.entity.enumaration.Permission;
 import com.example.final_project_2.entity.enumaration.Roll;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,13 +26,18 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String firstName;
+    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String lastName;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
+    @NotBlank
+    @Email
     private String email;
 
     @Column( nullable = false)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8}$")
     private String password;
     private LocalDate dateRegister;
     @Enumerated(EnumType.STRING)
