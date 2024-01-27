@@ -1,10 +1,8 @@
 package com.example.final_project_2.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.io.Serializable;
 import java.time.Duration;
@@ -20,15 +18,15 @@ public class Offer implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
-    private Duration DurationOfWork;
+    private int DurationOfWork;
     private LocalDate SuggestedTimeToStartWork;
-    @NotBlank
-    private double RecommendedPrice;
+    @NotNull
+    private double recommendedPrice;
     private LocalDate dateRegisterOffer;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Expert expert;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Order order;
 
 

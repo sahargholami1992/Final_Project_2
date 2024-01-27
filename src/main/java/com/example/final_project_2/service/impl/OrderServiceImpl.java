@@ -2,8 +2,10 @@ package com.example.final_project_2.service.impl;
 
 
 import com.example.final_project_2.entity.Customer;
+import com.example.final_project_2.entity.Expert;
 import com.example.final_project_2.entity.Order;
 import com.example.final_project_2.entity.SubService;
+import com.example.final_project_2.entity.enumaration.StatusOrder;
 import com.example.final_project_2.repository.OrderRepository;
 import com.example.final_project_2.service.OrderService;
 import com.example.final_project_2.service.dto.OrderDto;
@@ -13,14 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     protected final OrderRepository repository;
-
+    @Transactional
     @Override
-    public void registerOrder(OrderDto dto, Customer customer, SubService subService) {
+    public Order registerOrder(OrderDto dto, Customer customer, SubService subService) {
         if (dto.getRecommendedPrice() > subService.getBasePrice() && dto.getDateDoOrder().isAfter(LocalDate.now())) {
             Order order = new Order();
             order.setCustomer(customer);
@@ -31,7 +37,31 @@ public class OrderServiceImpl implements OrderService {
             order.setDateDoOrder(dto.getDateDoOrder());
             order.setStatusOrder(dto.getStatusOrder());
             repository.save(order);
-        }else throw new NoResultException(" time or price in not valid");
+            return order;
+        }else throw new NoSuchElementException(" time or price in not valid");
 
+    }
+
+    public Collection<Order> getPendingOrdersForExpert(Expert expert) {
+        return repository.findOrderByForExpert(expert).stream()
+                .filter(order -> order.getStatusOrder() == StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS ||
+                        order.getStatusOrder() == StatusOrder.WAITING_FOR_EXPERT_SELECTION)
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    @Override
+    public void UpdateStatus(Order order) {
+        repository.save(order);
+    }
+    @Transactional
+    @Override
+    public void changeOrderStatus(Order order,StatusOrder statusOrder) {
+        order.setStatusOrder(statusOrder);
+        repository.save(order);
+    }
+
+    @Override
+    public Collection<Order> findAll() {
+        return repository.findAll();
     }
 }

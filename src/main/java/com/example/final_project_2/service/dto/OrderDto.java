@@ -2,11 +2,14 @@ package com.example.final_project_2.service.dto;
 
 import com.example.final_project_2.entity.enumaration.StatusOrder;
 import lombok.Getter;
+import lombok.Setter;
 
 
 import java.io.Serializable;
 import java.time.LocalDate;
 @Getter
+
+
 public class OrderDto implements Serializable {
     private String address;
     private double recommendedPrice;

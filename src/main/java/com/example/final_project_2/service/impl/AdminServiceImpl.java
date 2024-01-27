@@ -1,76 +1,103 @@
 package com.example.final_project_2.service.impl;
 
 
-
 import com.example.final_project_2.entity.Admin;
+import com.example.final_project_2.entity.BasicService;
 import com.example.final_project_2.entity.Expert;
-import com.example.final_project_2.entity.Service;
 import com.example.final_project_2.entity.SubService;
 import com.example.final_project_2.entity.enumaration.ExpertStatus;
+import com.example.final_project_2.entity.enumaration.Permission;
+import com.example.final_project_2.entity.enumaration.Roll;
 import com.example.final_project_2.repository.AdminRepository;
 import com.example.final_project_2.service.AdminService;
 import com.example.final_project_2.service.ExpertService;
-import com.example.final_project_2.service.ServiceService;
+import com.example.final_project_2.service.BasicServiceService;
 import com.example.final_project_2.service.SubServiceService;
 import com.example.final_project_2.service.user.UserServiceImpl;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Collection;
+import java.util.Set;
+
 @Transactional(readOnly = true)
-@org.springframework.stereotype.Service
+@Service
 public class AdminServiceImpl extends UserServiceImpl<Admin, AdminRepository>
-                              implements AdminService {
+        implements AdminService {
     protected final SubServiceService subServiceService;
-    protected final ServiceService serviceService;
+    protected final BasicServiceService basicServiceService;
     protected final ExpertService expertService;
-    public AdminServiceImpl(AdminRepository repository,SubServiceService subServiceService,ServiceService serviceService,ExpertService expertService) {
+
+    public AdminServiceImpl(AdminRepository repository, SubServiceService subServiceService, BasicServiceService basicServiceService, ExpertService expertService) {
         super(repository);
-        this.subServiceService  =subServiceService;
-        this.serviceService=serviceService;
-        this.expertService=expertService;
+        this.subServiceService = subServiceService;
+        this.basicServiceService = basicServiceService;
+        this.expertService = expertService;
     }
 
-
-
+    @PostConstruct
+    @Transactional
+    public void init() {
+        if (repository.count() == 0) {
+            Admin admin = new Admin();
+            admin.setFirstName("admin");
+            admin.setLastName("Admin");
+            admin.setEmail("Admin@admin.com");
+            admin.setPassword("Admin123");
+            admin.setDateRegister(LocalDate.now());
+            admin.setPermission(Permission.ACCEPTED);
+            admin.setRoll(Roll.ADMIN);
+            repository.save(admin);
+        }
+    }
 
     @Override
+    @Transactional
     public void saveService(String serviceName) {
-        if (!serviceService.existByServiceName(serviceName.toLowerCase())){
-            Service service = new Service();
-            service.setServiceName(serviceName.toLowerCase());
-            serviceService.saveOrUpdate(service);
-        }else throw new IllegalArgumentException(" this service existed ");
+        if (!basicServiceService.existByServiceName(serviceName)) {
+            BasicService basicService = new BasicService();
+            basicService.setServiceName(serviceName);
+            basicServiceService.saveOrUpdate(basicService);
+        } else throw new IllegalArgumentException(" this service existed ");
     }
 
     @Override
+    @Transactional
     public void saveSubService(String serviceName, SubService subService) {
-        if (serviceService.existByServiceName(serviceName) && !subServiceService.existByName(subService.getSubServiceName())){
-            Service service = serviceService.findByServiceName(serviceName);
-            subService.setService(service);
+        if (basicServiceService.existByServiceName(serviceName) && !subServiceService.existByName(subService.getSubServiceName())) {
+            BasicService basicService = basicServiceService.findByServiceName(serviceName);
+            subService.setBasicService(basicService);
             subServiceService.saveOrUpdate(subService);
-        }else throw new  IllegalArgumentException(" this service not exist or duplicate subService name ");
-}
+        } else throw new IllegalArgumentException(" this service not exist or duplicate subService name ");
+    }
 
     @Override
+    @Transactional
     public void deleteExpertFromSubService(SubService subService, Expert expert) {
-        if (subService != null && expert != null && expert.getExpertStatus().equals(ExpertStatus.ACCEPTED) && subService.getExperts().contains(expert) ) {
+        if (subService != null && expert != null && expert.getExpertStatus().equals(ExpertStatus.ACCEPTED) && subService.getExperts().contains(expert)) {
             subServiceService.deleteByEXPERT(subService, expert);
-        }else throw new NullPointerException(" Expert or SubService not found in the database or ExpertStatus is not equals ACCEPTED  ");
+        } else throw new NullPointerException(" Expert or SubService not found in the database or ExpertStatus is not equals ACCEPTED  ");
 
     }
 
     @Override
+    @Transactional
     public void saveExpertForSubService(SubService subService, Expert expert) {
-        if (subService != null && expert != null && expert.getExpertStatus().equals(ExpertStatus.ACCEPTED) ) {
+        if (subService != null && expert != null && expert.getExpertStatus().equals(ExpertStatus.ACCEPTED)) {
             subServiceService.saveExpert(subService, expert);
-        }else throw new NullPointerException(" Expert or SubService not found in the database or ExpertStatus is not equals ACCEPTED  ");
+        } else
+            throw new NullPointerException(" Expert or SubService not found in the database or ExpertStatus is not equals ACCEPTED  ");
 
     }
 
     @Override
-    public void registerService(Service service) {
-        serviceService.saveOrUpdate(service);
+    @Transactional
+    public void registerService(BasicService basicService) {
+        basicServiceService.saveOrUpdate(basicService);
     }
 
     @Override
@@ -80,8 +107,8 @@ public class AdminServiceImpl extends UserServiceImpl<Admin, AdminRepository>
     }
 
     @Override
-    public Collection<Service> showAllService() {
-        return serviceService.loadAll();
+    public Collection<BasicService> showAllService() {
+        return basicServiceService.loadAll();
     }
 
     @Override
@@ -90,17 +117,21 @@ public class AdminServiceImpl extends UserServiceImpl<Admin, AdminRepository>
     }
 
     @Override
+    @Transactional
     public void changeExpertStatus(Expert expert) {
+        expert.setExpertStatus(ExpertStatus.ACCEPTED);
+        expert.setPermission(Permission.ACCEPTED);
         expertService.changeExpertStatus(expert);
     }
 
     @Override
     public boolean existByServiceName(String serviceName) {
-        return serviceService.existByServiceName(serviceName);
+        return basicServiceService.existByServiceName(serviceName);
     }
 
     @Override
+    @Transactional
     public void editSubService(String subServiceName, double price, String description) {
-        subServiceService.editSubService(subServiceName,price,description);
+        subServiceService.editSubService(subServiceName, price, description);
     }
 }

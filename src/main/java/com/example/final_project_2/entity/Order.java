@@ -3,9 +3,11 @@ package com.example.final_project_2.entity;
 import com.example.final_project_2.entity.enumaration.StatusOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,19 +20,21 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private Customer customer;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private SubService subService;
     @NotBlank
     private String address;
-    @NotBlank
+    @NotNull
     private double recommendedPrice;
-    @NotBlank
+//    @NotBlank
     private String description;
     private LocalDate dateDoOrder;
     @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
+    @OneToMany(mappedBy = "order")
+    private List<Offer> offers;
     @OneToOne
     private Comment comment;
 

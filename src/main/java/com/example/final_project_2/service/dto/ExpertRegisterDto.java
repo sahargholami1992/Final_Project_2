@@ -4,12 +4,14 @@ import com.example.final_project_2.entity.enumaration.ExpertStatus;
 import com.example.final_project_2.entity.enumaration.Permission;
 import com.example.final_project_2.entity.enumaration.Roll;
 import lombok.Getter;
+import lombok.Setter;
 
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class ExpertRegisterDto implements Serializable {
     private String firstName;
     private String lastName;

@@ -2,6 +2,7 @@ package com.example.final_project_2.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import java.io.Serializable;
@@ -22,9 +23,9 @@ public class SubService implements Serializable {
     @Column(unique = true)
     @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String subServiceName;
-    @NotBlank
+    @NotNull
     private double basePrice;
-    @NotBlank
+//    @NotNull
     private String description;
     @OneToMany(mappedBy = "subService")
     private List<Order> orders;
@@ -38,7 +39,7 @@ public class SubService implements Serializable {
     private Set<Expert> experts;
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private Service service;
+    private BasicService basicService;
 
 
     @Override

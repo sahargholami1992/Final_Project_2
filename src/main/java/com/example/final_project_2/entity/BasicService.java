@@ -12,7 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Service implements Serializable {
+public class BasicService implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
@@ -21,7 +21,7 @@ public class Service implements Serializable {
    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String serviceName;
     @ToString.Exclude
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "basicService")
     private Set<SubService> subServices = new HashSet<>();
 
 

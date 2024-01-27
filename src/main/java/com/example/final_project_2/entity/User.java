@@ -45,11 +45,16 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Permission permission;
 
+    public User(String firstName) {
+        this.firstName = firstName;
+    }
+
     @Override
     public String toString() {
         return " id = " +getId()+
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", dateRegister=" + dateRegister +
                 ", roll=" + roll +
                 ", permission=" + permission ;

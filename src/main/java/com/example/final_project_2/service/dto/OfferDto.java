@@ -1,15 +1,17 @@
 package com.example.final_project_2.service.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class OfferDto implements Serializable {
-    private Duration DurationOfWork;
+    private int DurationOfWork;
     private LocalDate SuggestedTimeToStartWork;
-    private double RecommendedPrice;
+    private double recommendedPrice;
     private LocalDate dateRegisterOffer;
 }

@@ -1,36 +1,41 @@
 package com.example.final_project_2.service.impl;
 
 
-import com.example.final_project_2.entity.Service;
-import com.example.final_project_2.repository.ServiceRepository;
-import com.example.final_project_2.service.ServiceService;
+import com.example.final_project_2.entity.BasicService;
+import com.example.final_project_2.repository.BasicServiceRepository;
+import com.example.final_project_2.service.BasicServiceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
 @Transactional(readOnly = true)
-@org.springframework.stereotype.Service
+@Service
 @RequiredArgsConstructor
-public class ServiceServiceImpl implements ServiceService {
-    protected final ServiceRepository repository;
+public class BasicServiceServiceImpl implements BasicServiceService {
+    protected final BasicServiceRepository repository;
     @Override
     public boolean existByServiceName(String serviceName) {
         return repository.existsByServiceName(serviceName);
     }
 
     @Override
-    public Service findByServiceName(String serviceName) {
+    public BasicService findByServiceName(String serviceName) {
         return repository.findByServiceName(serviceName).orElseThrow(() -> new NullPointerException("userName or password is wrong"));
     }
 
-    @Override
-    public Collection<Service> loadAll() {
-        return repository.findAll();
-    }
 
     @Override
-    public void saveOrUpdate(Service service) {
-        repository.save(service);
+    public Collection<BasicService> loadAll() {
+        return repository.findAll();
     }
+    @Transactional
+    @Override
+    public void saveOrUpdate(BasicService basicService) {
+        repository.save(basicService);
+    }
+
+
 }
+

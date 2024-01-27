@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,7 +19,10 @@ public class UserServiceImpl<T extends User,R extends UserRepository<T>> impleme
 
     @Override
     public void changePassword(String email, String newPassword) {
-        repository.updatePassword(email,newPassword);
+        T user = repository.findByEmail(email).
+                orElseThrow(() -> new NullPointerException("userName or password is wrong"));
+
+        repository.save(user);
     }
 
     @Override
