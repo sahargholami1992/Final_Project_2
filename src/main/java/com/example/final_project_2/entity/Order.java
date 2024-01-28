@@ -24,9 +24,9 @@ public class Order implements Serializable {
     private Customer customer;
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private SubService subService;
-    @NotBlank
+//    @NotBlank
     private String address;
-    @NotNull
+//    @NotNull
     private double recommendedPrice;
 //    @NotBlank
     private String description;

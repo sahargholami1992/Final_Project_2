@@ -32,10 +32,10 @@ public class Expert extends User {
     @ManyToMany(mappedBy = "experts")
     private Set<SubService> subServices = new HashSet<>();
 
-    public Expert(String firstName, int score) {
-        super(firstName);
-        this.score = score;
-    }
+//    public Expert(String firstName, int score) {
+//        super(firstName);
+//        this.score = score;
+//    }
 
     @Override
     public String toString() {

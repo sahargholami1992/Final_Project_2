@@ -20,7 +20,7 @@ public class Offer implements Serializable {
     private Integer id;
     private int DurationOfWork;
     private LocalDate SuggestedTimeToStartWork;
-    @NotNull
+//    @NotNull
     private double recommendedPrice;
     private LocalDate dateRegisterOffer;
     @ManyToOne(cascade = CascadeType.MERGE)

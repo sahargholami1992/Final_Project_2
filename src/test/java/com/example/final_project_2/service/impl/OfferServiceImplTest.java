@@ -7,7 +7,6 @@ import com.example.final_project_2.service.dto.CustomerRegisterDto;
 import com.example.final_project_2.service.dto.ExpertRegisterDto;
 import com.example.final_project_2.service.dto.OfferDto;
 import com.example.final_project_2.service.dto.OrderDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,10 +36,6 @@ class OfferServiceImplTest {
     private AdminService adminService;
     Expert expert;
     Customer customer;
-
-
-
-
 
     @Test
     void saveOffer_WhenValidDto_ShouldSaveOffer() {

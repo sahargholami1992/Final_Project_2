@@ -26,18 +26,18 @@ public class User implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z\\s]+$")
+//    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String firstName;
-    @Pattern(regexp = "^[a-zA-Z\\s]+$")
+//    @Pattern(regexp = "^[a-zA-Z\\s]+$")
     private String lastName;
 
-    @Column(unique = true)
-    @NotBlank
-    @Email
+//    @Column(unique = true)
+//    @NotBlank
+//    @Email
     private String email;
 
-    @Column( nullable = false)
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8}$")
+//    @Column( nullable = false)
+//    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8}$")
     private String password;
     private LocalDate dateRegister;
     @Enumerated(EnumType.STRING)
@@ -45,9 +45,9 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Permission permission;
 
-    public User(String firstName) {
-        this.firstName = firstName;
-    }
+//    public User(String firstName) {
+//        this.firstName = firstName;
+//    }
 
     @Override
     public String toString() {
