@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface SubServiceRepository extends JpaRepository<SubService,Integer> {
 
-//    void updateSubService(String subServiceName, double price, String description);
-
     Collection<SubService> findByBasicService(BasicService basicService);
 
     boolean existsBySubServiceName(String subServiceName);
