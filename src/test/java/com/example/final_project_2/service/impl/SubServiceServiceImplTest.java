@@ -1,28 +1,17 @@
 package com.example.final_project_2.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-import java.util.*;
-
-import com.example.final_project_2.entity.BasicService;
 import com.example.final_project_2.entity.Expert;
 import com.example.final_project_2.entity.SubService;
 import com.example.final_project_2.repository.SubServiceRepository;
 import com.example.final_project_2.service.AdminService;
 import com.example.final_project_2.service.ExpertService;
 import com.example.final_project_2.service.dto.ExpertRegisterDto;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
+
 
 @SpringBootTest
 class SubServiceServiceImplTest {
@@ -36,17 +25,6 @@ class SubServiceServiceImplTest {
     @Autowired
     private AdminService adminService;
     SubService subService;
-
-//    @BeforeEach
-//    void setUp() {
-//        subService = new SubService();
-//        subService.setBasePrice(100);
-//        subService.setDescription("Description");
-//        subService.setSubServiceName("service name");
-//        subServiceService.saveOrUpdate(subService);
-//    }
-//    }
-
     @Test
     @Order(5)
     void deleteByEXPERT_ShouldRemoveExpertFromSubService() {
@@ -59,7 +37,6 @@ class SubServiceServiceImplTest {
         Expert expert = expertService.registerExpert(expertRegisterDto);
         adminService.changeExpertStatus(expert);
         adminService.saveExpertForSubService(subService, expert);
-
 
         // Act
         subServiceService.deleteByEXPERT(subService, expert);
@@ -104,19 +81,6 @@ class SubServiceServiceImplTest {
         assertEquals("New Description", editSubService.getDescription());
     }
 
-//    @Test
-//    void findByService_ShouldReturnSubServicesForGivenService() {
-//        // Arrange
-//        BasicService basicService = new BasicService();
-//
-//        // Act
-//        Collection<SubService> result = subServiceService.findByService(basicService);
-//
-//        // Assert
-//        assertFalse(result.isEmpty());
-//
-//    }
-
     @Test
     @Order(4)
     void existByName_ShouldReturnTrueIfSubServiceExists() {
@@ -139,29 +103,5 @@ class SubServiceServiceImplTest {
         assertFalse(result);
     }
 
-//    @Test
-//    void saveOrUpdate_ShouldSaveSubService() {
-//        // Arrange
-//        SubService subService = new SubService();
-//
-//        // Act
-//        subServiceService.saveOrUpdate(subService);
-//
-//        // Assert
-//
-//    }
-
-//    @Test
-//    void loadAll_ShouldReturnAllSubServices() {
-//        // Arrange
-//
-//
-//        // Act
-//        Collection<SubService> result = subServiceService.loadAll();
-//
-//        // Assert
-//        assertFalse(result.isEmpty());
-//
-//    }
 }
 

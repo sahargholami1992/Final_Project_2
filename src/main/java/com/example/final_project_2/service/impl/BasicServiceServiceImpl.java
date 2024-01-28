@@ -22,7 +22,7 @@ public class BasicServiceServiceImpl implements BasicServiceService {
 
     @Override
     public BasicService findByServiceName(String serviceName) {
-        return repository.findByServiceName(serviceName).orElseThrow(() -> new NullPointerException("userName or password is wrong"));
+        return repository.findByServiceName(serviceName).orElseThrow(() -> new NullPointerException("Basic service is null"));
     }
 
 

@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -67,7 +65,6 @@ class OrderServiceImplTest {
         subService.setBasePrice(30.0); // Set a base price for the subService
         OrderDto invalidDto = new OrderDto("hgghgf",20.0,"hsdgajhg",LocalDate.now().plusDays(1));
 
-
         // Act & Assert
         assertThrows(NoSuchElementException.class, () -> orderService.registerOrder(invalidDto, customer, subService));
     }
@@ -81,8 +78,6 @@ class OrderServiceImplTest {
         subService.setSubServiceName("service name");
         subService.setBasePrice(30.0); // Set a base price for the subService
         OrderDto invalidDto = new OrderDto("dsdd",40.0,"dsdd",LocalDate.now().minusDays(1));
-
-
         // Act & Assert
         assertThrows(NoSuchElementException.class, () -> orderService.registerOrder(invalidDto, customer, subService));
     }
@@ -103,14 +98,6 @@ class OrderServiceImplTest {
         OrderDto validDto = new OrderDto("shgdhadg",200,"shjsdhjah",LocalDate.now().plusDays(2));
         Order order = orderService.registerOrder(validDto, customer, subService);
         orderService.changeOrderStatus(order,StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS);
-//        Set<SubService> subServices = new HashSet<>();
-//        subServices.add(subService);
-//
-//        order.setStatusOrder(StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS);
-//        List<Order> orders = new ArrayList<>();
-//        orders.add(order);
-//        subService.setOrders(orders);
-//        expert.setSubServices(subServices);
 
         // Act
         Collection<Order> pendingOrders = orderService.getPendingOrdersForExpert(expert);
@@ -119,7 +106,5 @@ class OrderServiceImplTest {
         assertEquals(1, pendingOrders.size());
         assertEquals(StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS, pendingOrders.iterator().next().getStatusOrder());
     }
-
-
 
 }

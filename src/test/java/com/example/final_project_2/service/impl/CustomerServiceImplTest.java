@@ -8,17 +8,10 @@ import com.example.final_project_2.service.OrderService;
 import com.example.final_project_2.service.SubServiceService;
 import com.example.final_project_2.service.dto.CustomerRegisterDto;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.time.LocalDate;
-import java.util.Collection;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class CustomerServiceImplTest {
@@ -43,7 +36,6 @@ class CustomerServiceImplTest {
         // Arrange
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto("John","Doe","john.doe@example.com","John1234");
 
-
         // Act
         customerService.registerCustomer(customerRegisterDto);
 
@@ -51,33 +43,6 @@ class CustomerServiceImplTest {
 
         assertTrue(customerService.existByEmail("john.doe@example.com"));
     }
-
-//    @Test
-//    void showAllService_ShouldReturnAllServices() {
-//        // Arrange
-//
-//
-//        // Act
-//        Collection<BasicService> result = customerService.showAllService();
-//
-//        // Assert
-//        assertNotNull(result);
-//
-//    }
-
-//    @Test
-//    void showAllSubServiceByService_ShouldReturnSubServices() {
-//        // Arrange
-//        BasicService basicService = new BasicService();
-//
-//
-//        // Act
-//        Collection<SubService> result = customerService.showAllSubServiceByService(basicService);
-//
-//        // Assert
-//        assertNotNull(result);
-//
-//    }
 
     @Test
     void changeOrderStatusToStarted_WhenSuggestedTimeIsAfterNow_ShouldChangeOrderStatus() {
@@ -107,14 +72,4 @@ class CustomerServiceImplTest {
         assertNotEquals(StatusOrder.STARTED,order.getStatusOrder());
     }
 
-//    @Test
-//    void changeOrderStatusToDone_ShouldChangeOrderStatus() {
-//        // Arrange
-//        Order order = new Order();
-//
-//        // Act
-//        customerService.changeOrderStatusToDone(order);
-//
-//        // Assert
-//    }
 }

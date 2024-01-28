@@ -15,8 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,23 +35,24 @@ class OfferServiceImplTest {
     private SubServiceService subServiceService;
     @Autowired
     private AdminService adminService;
+    Expert expert;
+    Customer customer;
 
-    @BeforeEach
-    void setUp() {
 
-    }
+
+
 
     @Test
     void saveOffer_WhenValidDto_ShouldSaveOffer() {
         // Arrange
         ExpertRegisterDto expertRegisterDto = new ExpertRegisterDto("sgdsg","jsa","expert@emali.com","Expert12","3.jpg".getBytes());
-        Expert expert = expertService.registerExpert(expertRegisterDto);
+        expert = expertService.registerExpert(expertRegisterDto);
         adminService.changeExpertStatus(expert);
         CustomerRegisterDto customerRegisterDto = new CustomerRegisterDto("dsd","dss","customer@email.com","Custom12");
-        Customer customer = customerService.registerCustomer(customerRegisterDto);
+        customer = customerService.registerCustomer(customerRegisterDto);
         SubService subService = new SubService();
         subService.setBasePrice(100);
-        subService.setSubServiceName("service name");
+        subService.setSubServiceName("sub service name");
         subServiceService.saveOrUpdate(subService);
         OrderDto orderDto = new OrderDto("dssd",200,"dsds",LocalDate.now().plusDays(2));
         Order order = orderService.registerOrder(orderDto,customer, subService);
@@ -68,30 +68,40 @@ class OfferServiceImplTest {
         // Assert
         Collection<Offer> offers = offerService.getOffersForOrder(order.getCustomer(),"price");
         assertEquals(1, offers.size());
+
+
         assertEquals(StatusOrder.WAITING_FOR_EXPERT_SELECTION, order.getStatusOrder());
     }
 
     @Test
     void saveOffer_WhenInvalidDtoPrice_ShouldThrowIllegalArgumentException() {
         // Arrange
-        Expert expert = new Expert();
-        Order order = new Order();
-        order.setStatusOrder(StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS);
-        order.setSubService(new SubService());
+        SubService subService = new SubService();
+        subService.setBasePrice(100);
+        subService.setSubServiceName("another service name");
+        subServiceService.saveOrUpdate(subService);
+        OrderDto orderDto1 = new OrderDto("dsss",250,"dsffds",LocalDate.now().plusDays(2));
+        Order order1 = orderService.registerOrder(orderDto1,customer, subService);
+        order1.setStatusOrder(StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS);
+
         OfferDto invalidDto = new OfferDto();
         invalidDto.setRecommendedPrice(30.0);
         invalidDto.setDurationOfWork(5);
         invalidDto.setSuggestedTimeToStartWork(LocalDate.now().plusDays(2));
         invalidDto.setDateRegisterOffer(LocalDate.now());
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> offerService.saveOffer(expert, order, invalidDto));
+        assertThrows(IllegalArgumentException.class, () -> offerService.saveOffer(expert, order1, invalidDto));
     }
 
     @Test
     void saveOffer_WhenInvalidDtoTime_ShouldThrowIllegalArgumentException() {
         // Arrange
-        Expert expert = new Expert();
-        Order order = new Order();
+        SubService subService = new SubService();
+        subService.setBasePrice(100);
+        subService.setSubServiceName("service name");
+        subServiceService.saveOrUpdate(subService);
+        OrderDto orderDto = new OrderDto("dsss",250,"dsffds",LocalDate.now().plusDays(2));
+        Order order = orderService.registerOrder(orderDto,customer, subService);
         order.setStatusOrder(StatusOrder.WAITING_FOR_THE_SUGGESTION_OF_EXPERTS);
         order.setSubService(new SubService());
         OfferDto invalidDto = new OfferDto();
