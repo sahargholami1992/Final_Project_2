@@ -1,12 +1,11 @@
 package com.example.final_project_2.service.impl;
 
 import com.example.final_project_2.entity.Expert;
-import com.example.final_project_2.repository.ExpertRepository;
 import com.example.final_project_2.service.AdminService;
 import com.example.final_project_2.service.ExpertService;
-import com.example.final_project_2.service.OfferService;
 import com.example.final_project_2.service.dto.ExpertRegisterDto;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ExpertServiceImplTest {
-
-    @Autowired
-    private ExpertRepository expertRepository;
-    @Autowired
-    private OfferService offerService;
     @Autowired
     private ExpertService expertService;
     @Autowired
@@ -96,7 +90,7 @@ class ExpertServiceImplTest {
 
         // Assert
         assertNotNull(result);
-        assertEquals(5154, result.length);
+        Assertions.assertEquals(5154, result.length);
     }
 
     @Test
@@ -140,5 +134,18 @@ class ExpertServiceImplTest {
 
         // Assert
         assertFalse(result);
+    }
+    @Test
+    @Order(9)
+    public void testChangePassword() throws IOException {
+        // Create a user
+        // Arrange
+        expertRegisterDto = new ExpertRegisterDto("John","Doe","john1.doe@example.com","oldPass1", Files.readAllBytes(Paths.get("C:\\Users\\ZAITOON.iR\\IdeaProjects\\Final_Project_2\\src\\main\\resources\\3.jpg")));
+
+        // Act
+        expertService.registerExpert(expertRegisterDto);
+        Expert expert = expertService.changePassword("john1.doe@example.com", "newPass1");
+        // Assert
+        Assertions.assertEquals("newPass1", expert.getPassword());
     }
 }

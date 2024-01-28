@@ -9,7 +9,6 @@ import com.example.final_project_2.entity.enumaration.StatusOrder;
 import com.example.final_project_2.repository.OrderRepository;
 import com.example.final_project_2.service.OrderService;
 import com.example.final_project_2.service.dto.OrderDto;
-import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     protected final OrderRepository repository;

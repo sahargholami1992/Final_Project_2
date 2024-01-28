@@ -24,11 +24,10 @@ public class Order implements Serializable {
     private Customer customer;
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private SubService subService;
-//    @NotBlank
+    @NotBlank
     private String address;
-//    @NotNull
+    @NotNull
     private double recommendedPrice;
-//    @NotBlank
     private String description;
     private LocalDate dateDoOrder;
     @Enumerated(EnumType.STRING)
@@ -37,8 +36,5 @@ public class Order implements Serializable {
     private List<Offer> offers;
     @OneToOne
     private Comment comment;
-
-
-
 
 }

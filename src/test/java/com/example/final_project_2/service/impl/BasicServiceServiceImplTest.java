@@ -5,28 +5,18 @@ import com.example.final_project_2.repository.BasicServiceRepository;
 
 
 import com.example.final_project_2.service.BasicServiceService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Collection;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
 class BasicServiceServiceImplTest {
-
-    @Autowired
-    private BasicServiceRepository basicServiceRepository;
-
     @Autowired
     private BasicServiceService basicServiceService;
-    private String serviceName;
-
 
     @Test
     void existByServiceName_WhenServiceExists_ShouldReturnTrue() {

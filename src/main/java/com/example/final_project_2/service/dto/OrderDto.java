@@ -1,21 +1,15 @@
 package com.example.final_project_2.service.dto;
 
 import com.example.final_project_2.entity.enumaration.StatusOrder;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 
 
 import java.io.Serializable;
 import java.time.LocalDate;
 @Getter
-
-
 public class OrderDto implements Serializable {
-    @NotBlank
+
     private String address;
-    @NotNull
     private double recommendedPrice;
     private String description;
     private LocalDate dateDoOrder;

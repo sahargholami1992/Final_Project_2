@@ -12,9 +12,7 @@ import java.time.LocalDate;
 public class CustomerRegisterDto implements Serializable {
     private String firstName;
     private String lastName;
-
     private String email;
-
     private String password;
     private LocalDate dateRegister;
     private Roll roll;

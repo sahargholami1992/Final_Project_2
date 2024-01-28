@@ -1,7 +1,6 @@
 package com.example.final_project_2.service.user;
 
 
-import com.example.final_project_2.entity.Expert;
 import com.example.final_project_2.entity.User;
 import com.example.final_project_2.repository.user.UserRepository;
 import jakarta.persistence.NoResultException;
@@ -9,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -18,11 +17,11 @@ public class UserServiceImpl<T extends User,R extends UserRepository<T>> impleme
     protected final R repository;
 
     @Override
-    public void changePassword(String email, String newPassword) {
+    public T changePassword(String email, String newPassword) {
         T user = repository.findByEmail(email).
                 orElseThrow(() -> new NullPointerException("userName or password is wrong"));
-
-        repository.save(user);
+        user.setPassword(newPassword);
+        return repository.save(user);
     }
 
     @Override
@@ -40,6 +39,11 @@ public class UserServiceImpl<T extends User,R extends UserRepository<T>> impleme
         }
         throw new NoResultException("userName or password is wrong");
 
+    }
+
+    @Override
+    public T findByEmail(String email) {
+        return repository.findByEmail(email).orElseThrow(() -> new NullPointerException("this user not found"));
     }
 
     @Override

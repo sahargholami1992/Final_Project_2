@@ -1,11 +1,9 @@
 package com.example.final_project_2.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
 
 @Getter
@@ -20,7 +18,7 @@ public class Offer implements Serializable {
     private Integer id;
     private int DurationOfWork;
     private LocalDate SuggestedTimeToStartWork;
-//    @NotNull
+    @NotNull
     private double recommendedPrice;
     private LocalDate dateRegisterOffer;
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -28,8 +26,5 @@ public class Offer implements Serializable {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Order order;
-
-
-
 
 }
